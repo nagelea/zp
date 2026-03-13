@@ -1,0 +1,16 @@
+services:
+  zenproxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zenproxy
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "9090:9090"
+    environment:
+      RUST_LOG: zenproxy=info,tower_http=info
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - ./data:/app/data
+

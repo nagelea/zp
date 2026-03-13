@@ -352,6 +352,37 @@ GET /api/proxies?api_key=xxx
 
 ### 服务端部署
 
+#### Docker Compose 部署
+
+项目根目录已提供 `docker-compose.yml`，会同时构建：
+- `zenproxy`（Rust 主服务）
+- `sing-box`（`sing-box-zenproxy` 修改版，容器内与 `zenproxy` 同目录）
+
+启动：
+
+```bash
+mkdir -p data
+docker compose up -d --build
+```
+
+查看日志：
+
+```bash
+docker compose logs -f
+```
+
+停止：
+
+```bash
+docker compose down
+```
+
+默认映射端口：
+- `3000`：ZenProxy HTTP 服务
+- `9090`：sing-box Clash API
+
+> 说明：`config.toml` 以只读方式挂载到容器内 `/app/config.toml`，数据目录挂载到 `/app/data`（数据库与运行时配置会持久化到宿主机 `./data`）。
+
 #### 编译
 
 ```bash
